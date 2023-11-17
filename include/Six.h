@@ -3,13 +3,12 @@
 #include <array>
 #include <string>
 #include <iostream>
+#include <vector>
 
 class Six
 {
 private:
-    size_t _size;
-    unsigned char *_array;
-    void increase_array();
+    std::vector<unsigned char> _array;
     void remove_leading_zeros();
 public:
     Six();
