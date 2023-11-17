@@ -1,10 +1,13 @@
 #include <iostream>
 
-#include "lib.h"
+#include "Six.h"
 
 using namespace std;
 
 int main() {
-    cout << "Bruh: " << endl
-         << A() << endl;
+    Six n1 {'5', '5', '5', '5'};
+    Six n2 {'0'};
+    cout << n1 << '\n';
+    cout << n2 << '\n';
+    cout << n2+n1 << '\n';
 }
