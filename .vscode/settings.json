@@ -1,9 +1,13 @@
 {
-    "nuxt.isNuxtApp": false,
-    "C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: Google, IndentWidth: 3, IncludeBlocks: Merge, IndentGotoLabels: true, KeepEmptyLinesAtTheStartOfBlocks: true}",
-    "C_Cpp.errorSquiggles": "enabled",
-    "files.associations": {
-        "random": "cpp",
-        "iostream": "cpp"
-    }
+  "nuxt.isNuxtApp": false,
+  "C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: Google, IndentWidth: 3, IncludeBlocks: Merge, IndentGotoLabels: true, KeepEmptyLinesAtTheStartOfBlocks: true}",
+  "C_Cpp.errorSquiggles": "enabled",
+  "files.associations": {
+    "\"editor.fontFamily\"": "\"JetBrains Mono NL\"",
+    "random": "cpp",
+    "iostream": "cpp",
+    "string": "cpp",
+    "iosfwd": "cpp",
+    "*.tcc": "cpp"
+  }
 }
