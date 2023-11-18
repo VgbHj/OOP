@@ -1,90 +1,156 @@
+
 // Copyright 2023 SomeName
 
 #include "Six.h"
 #include <algorithm>
 #include <cstring>
+#include <math.h>
 
 #define BASE 6
 
-Six::Six(): _array{} {}
+Six::Six(): _size(0), _array{nullptr} {}
 
 Six::Six(const size_t &n, unsigned char t){
+    _array = new unsigned char[n];
     for(size_t i = 0; i < n; ++i)
-        _array.push_back(t);
+        _array[i] = t;
+    _size = n;
 }
 
 Six::Six(const std::initializer_list<unsigned char> &t){
+    _array = new unsigned char[t.size()];
+    size_t i{0};
     for(auto c : t){
-        _array.push_back(c);
+        _array[i++] = c;
     }
+    _size = t.size();
 }
 
 Six::Six(const std::string &t){
-    for(size_t i = 0; i < t.size(); ++i) _array.push_back(t[i]);
+    _array = new unsigned char[t.size()];
+    _size = t.size();
+    for(size_t i = 0; i < _size; ++i) _array[i] = t[i];
 }
 
+
 Six::Six(const Six &other){
-    _array = other._array;
+    _size = other._size;
+    _array = new unsigned char[_size];
+
+    for(size_t i = 0; i < _size; ++i) _array[i] = other._array[i];
 }
 
 Six::Six(Six &&other) noexcept{
+    _size = other._size;
     _array = other._array;
 
-    other._array = {};
+    other.~Six();
 }
-
 std::ostream& operator<<(std::ostream& os, const Six& num) {
-    for(size_t i = 0; i < num._array.size(); ++i){
+    for(size_t i = 0; i < num._size; ++i){
         os << num._array[i];
     }
     return os;
 }
 
-int Six::take_int(int index=0) const{
-    if(index >= this->_array.size()){
-        return 0;
+
+int Six::BASE_to_int() const{
+    int num = 0;
+    for(size_t i = 0; i < _size; ++i){
+        num += (_array[_size-i-1] - '0') * pow(BASE, i);
     }
 
-    return this->_array[index] - '0';
+    return num;
 }
 
-void Six::remove_leading_zeros(){
-    std::vector<unsigned char> new_array(this->_array.size()-1);
-    for(size_t i = 0; i < new_array.size(); ++i){
-        new_array[i] = this->_array[i+1];
+int log_a_to_base_b(int a, int b)
+{
+    return log2(a) / log2(b);
+}
+
+std::string Six::int_to_BASE(int num){
+    int new_size = log_a_to_base_b(num, BASE) + (num >= pow(BASE, log_a_to_base_b(num, BASE)));
+    std::string new_s;
+    while(num){
+        new_s = new_s + std::to_string(num%BASE);
+        num /= BASE;
     }
 
-    this->_array = new_array;
+    std::reverse(new_s.begin(), new_s.end());
+
+    return new_s;
 }
+
 Six Six::operator+(const Six& other){
-    int carry = 0;
-    int mx = std::max(this->_array.size(),other._array.size());
-    for (size_t i=0; i < mx || carry; ++i) {
-        if (i == this->_array.size()){
-            this->_array.resize(this->_array.size()+1);
-            for(int j = 1; j < this->_array.size(); ++j) this->_array[j] = this->_array[j-1];
-            this->_array[0] = '0';
-        }
-        this->_array[this->_array.size()-i] = (unsigned char) ((int)this->_array[this->_array.size()-i] + carry + (other.take_int(other._array.size()-i)));
-        carry = this->take_int(this->_array.size()-i) >= BASE;
-        if (carry)  this->_array[this->_array.size()-i] = (unsigned char) ((int)this->_array[this->_array.size()-i] - BASE);
-    }
-
-    remove_leading_zeros();
-    return *this;
+    int a = BASE_to_int(), b = other.BASE_to_int();
+    return Six(int_to_BASE(a+b));
 }
 
 Six Six::operator-(const Six& other){
-    // int carry = 0;
-    // for (size_t i=0; i<b.size() || carry; ++i) {
-    //     a[i] -= carry + (i < b.size() ? b[i] : 0);
-    //     carry = a[i] < 0;
-    //     if (carry)  a[i] += base;
-    // }
-    // while (a.size() > 1 && a.back() == 0)
-    //     a.pop_back();
+    int a = BASE_to_int(), b = other.BASE_to_int();
+    return Six(int_to_BASE(a-b));
+
+}
+
+Six& Six::operator=(const Six& other) noexcept{
+    if(&other != this)
+    {
+        _size = other._size;
+        _array = new unsigned char[_size];
+
+        for(size_t i = 0; i < _size; ++i) _array[i] = other._array[i];
+    }
+    return *this;
+}
+
+Six& Six::operator+=(const Six& other){
+    *this = *this + other;
+    return *this;
+}
+
+Six& Six::operator-=(const Six& other){
+    *this = *this - other;
+    return *this;
+}
+
+Six& Six::operator++(int){
+    int a = BASE_to_int();
+    Six tmp_S = Six(int_to_BASE(a+1));
+    *this = tmp_S;
+    return *this;
+}
+
+Six& Six::operator--(int){
+    int a = BASE_to_int();
+    Six tmp_S = Six(int_to_BASE(a-1));
+    *this = tmp_S;
+    return *this;
+}
+
+bool Six::operator<(const Six& other) const{
+    return this->BASE_to_int() < other.BASE_to_int();
+}
+bool Six::operator>(const Six& other) const{
+    return this->BASE_to_int() > other.BASE_to_int();
+}
+bool Six::operator==(const Six& other) const{
+    return this->BASE_to_int() == other.BASE_to_int();
+}
+bool Six::operator<=(const Six& other) const{
+    return this->BASE_to_int() <= other.BASE_to_int();
+}
+bool Six::operator>=(const Six& other) const{
+    return this->BASE_to_int() >= other.BASE_to_int();
+}
+bool Six::operator!=(const Six& other) const{
+    return this->BASE_to_int() != other.BASE_to_int();
 }
 
 
-
-Six::~Six() noexcept{}
+Six::~Six() noexcept{
+    if(_size > 0){
+        _size = 0;
+        delete[] _array;
+        _array = nullptr;
+    }
+}
