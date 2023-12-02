@@ -1,9 +1,25 @@
 {
-    "nuxt.isNuxtApp": false,
-    "C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: Google, IndentWidth: 3, IncludeBlocks: Merge, IndentGotoLabels: true, KeepEmptyLinesAtTheStartOfBlocks: true}",
-    "C_Cpp.errorSquiggles": "enabled",
-    "files.associations": {
-        "random": "cpp",
-        "iostream": "cpp"
-    }
+  "nuxt.isNuxtApp": false,
+  "C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: Google, IndentWidth: 3, IncludeBlocks: Merge, IndentGotoLabels: true, KeepEmptyLinesAtTheStartOfBlocks: true}",
+  "C_Cpp.errorSquiggles": "enabled",
+  "files.associations": {
+    "\"editor.fontFamily\"": "\"JetBrains Mono NL\"",
+    "random": "cpp",
+    "iostream": "cpp",
+    "initializer_list": "cpp",
+    "iterator": "cpp",
+    "*.tcc": "cpp",
+    "bitset": "cpp",
+    "chrono": "cpp",
+    "compare": "cpp",
+    "system_error": "cpp",
+    "typeinfo": "cpp",
+    "stdexcept": "cpp",
+    "type_traits": "cpp",
+    "array": "cpp",
+    "hash_map": "cpp",
+    "string_view": "cpp",
+    "span": "cpp",
+    "ostream": "cpp"
+  }
 }
