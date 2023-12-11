@@ -1,9 +1,14 @@
 #pragma once
 
-#include "Pentagon.h"
+#include "Figure.h"
 
-class Hexagon : public Pentagon {
+class Hexagon : public Figure {
 private:
+    Point _p1;
+    Point _p2;
+    Point _p3;
+    Point _p4;
+    Point _p5;
     Point _p6;
 
 public:

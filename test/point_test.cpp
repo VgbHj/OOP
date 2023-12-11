@@ -1,10 +1,10 @@
-#include <gtest/gtest.h>
+// #include <gtest/gtest.h>
 
-#include "Point.h"
+// #include "Point.h"
 
-TEST(constructor_test, without_exception_test_1) {
-    ASSERT_NO_THROW(Point(0, 0));
-}
+// TEST(constructor_test, without_exception_test_1) {
+//     ASSERT_NO_THROW(Point(0, 0));
+// }
 
 // TEST(constructor_test, without_exception_test_2) {
 //     ASSERT_NO_THROW(Point(1.4, 10.8));

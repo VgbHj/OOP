@@ -1,9 +1,14 @@
 #pragma once
 
-#include "Rhombus.h"
+#include "Figure.h"
+#include "FigureValidator.h"
 
-class Pentagon : public Rhombus {
-protected:
+class Pentagon : public Figure {
+private:
+    Point _p1;
+    Point _p2;
+    Point _p3;
+    Point _p4;
     Point _p5;
 
 public:

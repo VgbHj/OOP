@@ -2,6 +2,8 @@
     
 #include <iomanip>
 #include <random>
+
+#include <typeinfo> 
 #include "Point.h"
 
 class Figure {

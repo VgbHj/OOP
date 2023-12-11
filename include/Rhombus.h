@@ -1,9 +1,10 @@
 #pragma once
 
 #include "Figure.h"
+// #include "FigureValidator.h"
 
 class Rhombus : public Figure {
-protected:
+private:
     Point _p1;
     Point _p2;
     Point _p3;

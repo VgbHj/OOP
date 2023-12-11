@@ -30,7 +30,7 @@ void generateRandomPolygonCoordinates(int sides) {
 
 int main() {
     generateRandomPolygonCoordinates(6);
-    Rhombus* rhomb = new Rhombus({Point(0,14), Point(-14,0), Point(0,-14), Point(14,0)});
+    Rhombus* rhomb = new Rhombus(Point(0,14), Point(-14,0), Point(0,-14), Point(14,0));
     cout << *rhomb << endl;
     Pentagon* pent = new Pentagon(Point(5,17), Point(-14, 10), Point(-14,-10), Point(5,-17), Point(18,0));
     cout << *pent << endl;
