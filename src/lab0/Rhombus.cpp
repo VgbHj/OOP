@@ -1,14 +1,10 @@
 #include "Rhombus.h"
 
 Rhombus::Rhombus(const Point& p1, const Point& p2, const Point& p3, const Point& p4) : _p1(p1), _p2(p2), _p3(p3), _p4(p4) {
-    // FigureValidator valid;
-    // valid.Validate(typeid(this), {p1, p2, p3, p4});
+    // FigureValidator* valid;
+    // valid->Validate(typeid(this), {p1, p2, p3, p4});
 }
 Rhombus::Rhombus(const std::initializer_list<Point>& list) {
-    if (list.size() != 4) {
-        throw std::invalid_argument("Need four points(p1, p2, p3, p4)");
-    }
-
     _p1 = *(list.begin());
     _p2 = *(list.begin()+1);
     _p3 = *(list.begin()+2);

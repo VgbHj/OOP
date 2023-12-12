@@ -5,10 +5,6 @@ Pentagon::Pentagon(const Point& p1, const Point& p2, const Point& p3, const Poin
     // valid.Validate(typeid(this), {p1, p2, p3, p4, p5});
 }
 Pentagon::Pentagon(const std::initializer_list<Point>& list) {
-    if (list.size() != 5) {
-        throw std::invalid_argument("Need four points(p1, p2, p3, p4, p5)");
-    }
-
     _p1 = *(list.begin());
     _p2 = *(list.begin()+1);
     _p3 = *(list.begin()+2);

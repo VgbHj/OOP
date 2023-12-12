@@ -1,11 +1,9 @@
 #include "Hexagon.h"
 
-Hexagon::Hexagon(const Point& p1, const Point& p2, const Point& p3, const Point& p4, const Point& p5, const Point& p6) : _p1(p1), _p2(p2), _p3(p3), _p4(p4), _p5(p5), _p6(p6) {}
+Hexagon::Hexagon(const Point& p1, const Point& p2, const Point& p3, const Point& p4, const Point& p5, const Point& p6) : _p1(p1), _p2(p2), _p3(p3), _p4(p4), _p5(p5), _p6(p6) {
+    
+}
 Hexagon::Hexagon(const std::initializer_list<Point>& list) {
-    if (list.size() != 5) {
-        throw std::invalid_argument("Need four points(p1, p2, p3, p4, p5, p6)");
-    }
-
     _p1 = *(list.begin());
     _p2 = *(list.begin()+1);
     _p3 = *(list.begin()+2);

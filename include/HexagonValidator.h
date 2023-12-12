@@ -15,7 +15,13 @@ bool areEqual(double a, double b) {
 
 
 public:
+    HexagonValidator() = default; 
+
     void Validate(const std::initializer_list<Point>& list) override{
+        if (list.size() != 6) {
+            throw std::invalid_argument("Need six points(p1, p2, p3, p4, p5, p6)");
+        }
+
         const Point& A = *(list.begin());
         const Point& B = *(list.begin()+1);
         const Point& C = *(list.begin()+2);
@@ -41,18 +47,6 @@ public:
             throw std::invalid_argument("Введенные точки не образуют шестиугольник");
         }
 
-        // Check if the sum of interior angles is approximately 720 degrees
-        double sumOfAngles = 180.0 * (6 - 2);
-        sumOfAngles = fabs(sumOfAngles - (180.0 / M_PI) * (atan2(B.get_y() - A.get_y(), B.get_x() - A.get_x()) +
-                                                atan2(C.get_y() - B.get_y(), C.get_x() - B.get_x()) +
-                                                atan2(D.get_y() - C.get_y(), D.get_x() - C.get_x()) +
-                                                atan2(E.get_y() - D.get_y(), E.get_x() - D.get_x()) +
-                                                atan2(F.get_y() - E.get_y(), F.get_x() - E.get_x()) +
-                                                atan2(A.get_y() - F.get_y(), A.get_x() - F.get_x())));
-
-        if(!areEqual(sumOfAngles, 720.0)){
-            throw std::invalid_argument("Введенные точки не образуют шестиугольник");
-        }
     }    
 
     bool CheckType(const std::type_info &type) override{

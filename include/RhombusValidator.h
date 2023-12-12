@@ -14,7 +14,14 @@ bool areEqual(double a, double b) {
 }
 
 public:
+    RhombusValidator() = default;
+
     void Validate(const std::initializer_list<Point>& list) override{
+        if (list.size() != 4) {
+            throw std::invalid_argument("Need four points(p1, p2, p3, p4)");
+        }
+
+
         const Point& A = *(list.begin());
         const Point& B = *(list.begin()+1);
         const Point& C = *(list.begin()+2);
@@ -25,23 +32,10 @@ public:
         double DA = calculateDistance(D, A);
         double AC = calculateDistance(A, C);
         double BD = calculateDistance(B, D);
-
         // Check if all sides have equal length
         if (!areEqual(AB, BC) || !areEqual(BC, CD) || !areEqual(CD, DA) || !areEqual(DA, AB)) {
             throw std::invalid_argument("Введенные точки не образуют ромб");
         }
-
-        // Calculate midpoints of diagonals
-        Point M = {(A.get_x() + C.get_x()) / 2, (A.get_y() + C.get_y()) / 2};
-        Point N = {(B.get_x() + D.get_x()) / 2, (B.get_y() + D.get_y()) / 2};
-
-        // Check if diagonals bisect each other at right angles
-        double slopeAC = (C.get_y() - A.get_y()) / (C.get_x() - A.get_x());
-        double slopeBD = (D.get_y() - B.get_y()) / (D.get_x() - B.get_x());
-
-        if(!areEqual(slopeAC * slopeBD, -1)){
-            throw std::invalid_argument("Введенные точки не образуют ромб");
-        } 
     }    
 
     bool CheckType(const std::type_info &type) override{

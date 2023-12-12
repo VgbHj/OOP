@@ -23,8 +23,8 @@ public:
 
     virtual ~Hexagon() = default;
 
-    virtual Point calculate_geometric_center() const override;
-    virtual double calculate_area() const  override;
+    Point calculate_geometric_center() const override;
+    double calculate_area() const  override;
 
     bool operator==(const Hexagon&) const;
     bool operator!=(const Hexagon&) const;

@@ -1,11 +1,9 @@
 #include <gtest/gtest.h>
 
-#include "Point.h"
-#include "Figure.h"
+#include "RhombusCreator.h"
+#include "HexagonCreator.h"
+#include "PentagonCreator.h"
 #include "FiguresArray.h"
-#include "Hexagon.h"
-#include "Pentagon.h"
-#include "Rhombus.h"
 
 // POINT
 
@@ -152,6 +150,15 @@ TEST(point_equal_operator_test, false_return_2) {
 }
 
 // RHOMBUS
+TEST(rhombus_creator_test, with_exeption_test1){
+    FigureCreator* rhombCreator = new RhombusCreator();
+    ASSERT_THROW(rhombCreator->CreateFigure({Point(0,0), Point(-14,0), Point(0,-14), Point(14,0)}), std::invalid_argument);
+}
+
+TEST(rhombus_creator_test, without_exeption_test1){
+    FigureCreator* rhombCreator = new RhombusCreator();
+    ASSERT_NO_THROW(rhombCreator->CreateFigure({Point(0,14), Point(-14,0), Point(0,-14), Point(14,0)}));
+}
 
 TEST(rhombus_constructor_test, without_exception_test_1) {
     ASSERT_NO_THROW(Rhombus(Point(0, 0), Point(1, 0), Point(0,1), Point(1, 1)));
@@ -218,6 +225,15 @@ TEST(rhombus_equal_operator_test, false_return_1) {
 }
 
 // PENTAGON
+TEST(pentagon_creator_test, with_exeption_test1){
+    FigureCreator* pentCreator = new PentagonCreator();
+    ASSERT_THROW(pentCreator->CreateFigure({Point(5,17), Point(-14,-10), Point(5,-17), Point(18,0)}), std::invalid_argument);
+}
+
+TEST(pentagon_creator_test, without_exeption_test1){
+    FigureCreator* pentCreator = new PentagonCreator();
+    ASSERT_NO_THROW(pentCreator->CreateFigure({Point(5,17), Point(-14, 10), Point(-14,-10), Point(5,-17), Point(18,0)}));
+}
 
 TEST(pentagon_constructor_test, without_exception_test_1) {
     ASSERT_NO_THROW(Pentagon(Point(5,17), Point(-14, 10), Point(-14,-10), Point(5,-17), Point(18,0)));
@@ -284,6 +300,15 @@ TEST(pentagon_equal_operator_test, false_return_1) {
 }
 
 // HEXAGON
+TEST(hexagon_creator_test, with_exeption_test1){
+    FigureCreator* hexCreator = new HexagonCreator();
+    ASSERT_THROW(hexCreator->CreateFigure({Point(2,4), Point(-5,0), Point(-2,-4), Point(2,-4), Point(5,0)}), std::invalid_argument);
+}
+
+TEST(hexagon_creator_test, without_exeption_test1){
+    FigureCreator* hexCreator = new HexagonCreator();
+    ASSERT_NO_THROW(hexCreator->CreateFigure({Point(2,4), Point(-2,4), Point(-5,0), Point(-2,-4), Point(2,-4), Point(5,0)}));
+}
 
 TEST(hexagon_constructor_test, without_exception_test_1) {
     ASSERT_NO_THROW(Hexagon(Point(2,4), Point(-2,4), Point(-5,0), Point(-2,-4), Point(2,-4), Point(5,0)));

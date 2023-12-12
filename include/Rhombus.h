@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Figure.h"
-// #include "FigureValidator.h"
 
 class Rhombus : public Figure {
 private:
@@ -22,8 +21,8 @@ public:
 
     virtual ~Rhombus() = default;
 
-    virtual Point calculate_geometric_center() const override;
-    virtual double calculate_area() const  override;
+    Point calculate_geometric_center() const override;
+    double calculate_area() const override;
 
     bool operator==(const Rhombus&) const;
     bool operator!=(const Rhombus&) const;

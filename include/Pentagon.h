@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Figure.h"
-#include "FigureValidator.h"
 
 class Pentagon : public Figure {
 private:
@@ -23,8 +22,8 @@ public:
 
     virtual ~Pentagon() = default;
 
-    virtual Point calculate_geometric_center() const override;
-    virtual double calculate_area() const  override;
+    Point calculate_geometric_center() const override;
+    double calculate_area() const  override;
 
     bool operator==(const Pentagon&) const;
     bool operator!=(const Pentagon&) const;
