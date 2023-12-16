@@ -31,10 +31,11 @@ int main() {
 
     Array<std::shared_ptr<Figure<double>>> arr({
         std::make_shared<Rhombus<double>>(pii(0,14), pii(-14,0), pii(0,-14), pii(14,0))
-        });
+    });
 
     // arr.AddElement(hex);
     // arr.DeleteElementbyIndex(1);
     arr.print_area();
     arr.print_geometric_center();
+    cout << arr.size();
 }
