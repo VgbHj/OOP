@@ -6,10 +6,8 @@
 
 class Factory
 {
-private:
-    /* data */
 public:
-    Factory(/* args */);
+    Factory();
     ~Factory();
     std::shared_ptr<NPC> create(std::istream &is);
     std::shared_ptr<NPC> create(NpcType type, int x, int y);
