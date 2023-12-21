@@ -10,9 +10,9 @@ struct Orc : public NPC
     void save(std::ostream &os) override;
 
 
-    virtual void Accept(Visitor *visitor) const override
+    virtual int Accept(Visitor& visitor) const override
     {
-        visitor->VisitOrc(this);
+        return visitor.visit(*this);
     }
 
     bool is_orc() const override;

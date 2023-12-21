@@ -9,9 +9,9 @@ struct Squirrel : public NPC
     void print() override;
 
 
-    virtual void Accept(Visitor *visitor) const override
+    virtual int Accept(Visitor& visitor) const override
     {
-        visitor->VisitDruid(this);
+        return visitor.visit(*this);
     }
 
     bool is_squirrel() const override;

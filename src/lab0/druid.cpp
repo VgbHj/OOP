@@ -15,6 +15,7 @@ void Druid::save(std::ostream &os)
     os << DruidType << std::endl;
     NPC::save(os);
 }
+
 bool Druid::is_druid() const
 {
     return true;

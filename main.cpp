@@ -2,84 +2,8 @@
 #include "squirrel.h"
 #include "druid.h"
 #include "orc.h"
-#include "visitor.h"
-
-// Text Observer
-class TextObserver : public IFightObserver
-{
-private:
-    TextObserver(){};
-
-public:
-    static std::shared_ptr<IFightObserver> get()
-    {
-        static TextObserver instance;
-        return std::shared_ptr<IFightObserver>(&instance, [](IFightObserver *) {});
-    }
-
-    void on_fight(const std::shared_ptr<NPC> attacker, const std::shared_ptr<NPC> defender, bool win) override
-    {
-        if (win)
-        {
-            std::cout << std::endl
-                      << "Murder --------" << std::endl;
-            attacker->print();
-            defender->print();
-        }
-    }
-};
-
-// Фабрики -----------------------------------
-std::shared_ptr<NPC> factory(std::istream &is)
-{
-    std::shared_ptr<NPC> result;
-    int type{0};
-    if (is >> type)
-    {
-        switch (type)
-        {
-        case SquirrelType:
-            result = std::make_shared<Squirrel>(is);
-            break;
-        case DruidType:
-            result = std::make_shared<Druid>(is);
-            break;
-        case OrcType:
-            result = std::make_shared<Orc>(is);
-            break;
-        }
-    }
-    else
-        std::cerr << "unexpected NPC type:" << type << std::endl;
-
-    if (result)
-        result->subscribe(TextObserver::get());
-
-    return result;
-}
-
-std::shared_ptr<NPC> factory(NpcType type, int x, int y)
-{
-    std::shared_ptr<NPC> result;
-    switch (type)
-    {
-    case SquirrelType:
-        result = std::make_shared<Squirrel>(x, y);
-        break;
-    case DruidType:
-        result = std::make_shared<Druid>(x, y);
-        break;
-    case OrcType:
-        result = std::make_shared<Orc>(x, y);
-        break;
-    default:
-        break;
-    }
-    if (result)
-        result->subscribe(TextObserver::get());
-
-    return result;
-}
+#include "observer.h"
+#include "factory.h"
 
 // save array to file
 void save(const set_t &array, const std::string &filename)
@@ -95,13 +19,14 @@ void save(const set_t &array, const std::string &filename)
 set_t load(const std::string &filename)
 {
     set_t result;
+    Factory f;
     std::ifstream is(filename);
     if (is.good() && is.is_open())
     {
         int count;
         is >> count;
         for (int i = 0; i < count; ++i)
-            result.insert(factory(is));
+            result.insert(f.create(is));
         is.close();
     }
     else
@@ -117,30 +42,16 @@ std::ostream &operator<<(std::ostream &os, const set_t &array)
     return os;
 }
 
-
-// ВНИМАНИЕ: метод осуществляющий сражение написан неправильно!
-// Переделайте его на использование паттерна Visitor
-// То есть внутри цикла вместо кучи условий должно быть:
-//
-// success = defender->accept(attacker);
-//
-// В NPC методы типа is_dragon - станут не нужны
-
 set_t fight(const set_t &array, size_t distance)
 {
     set_t dead_list;
+    SuperVisitor visitor;
 
     for (const auto &attacker : array)
         for (const auto &defender : array)
             if ((attacker != defender) && (attacker->is_close(defender, distance)))
             {
-                bool success{false};
-                if (defender->is_squirrel())
-                    success = attacker->fight(std::dynamic_pointer_cast<Squirrel>(defender));
-                if (defender->is_druid())
-                    success = attacker->fight(std::dynamic_pointer_cast<Druid>(defender));
-                if (defender->is_orc())
-                    success = attacker->fight(std::dynamic_pointer_cast<Orc>(defender));
+                bool success = defender->Accept(visitor) < attacker->Accept(visitor);
                 if (success)
                     dead_list.insert(defender);
             }
@@ -151,11 +62,12 @@ set_t fight(const set_t &array, size_t distance)
 int main()
 {
     set_t array; // монстры
+    Factory f;
 
     // Гененрируем начальное распределение монстров
     std::cout << "Generating ..." << std::endl;
     for (size_t i = 0; i < 10; ++i)
-        array.insert(factory(NpcType(std::rand() % 3 + 1),
+        array.insert(f.create(NpcType(std::rand() % 3 + 1),
                              std::rand() % 100,
                              std::rand() % 100));
     std::cout << "Saving ..." << std::endl;

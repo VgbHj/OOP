@@ -9,9 +9,9 @@ struct Druid : public NPC
     void save(std::ostream &os) override;
 
 
-    virtual void Accept(Visitor *visitor) const override
+    virtual int Accept(Visitor& visitor) const override
     {
-        visitor->VisitDruid(this);
+        return visitor.visit(*this);
     }
 
     bool is_druid() const override;

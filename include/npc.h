@@ -8,7 +8,6 @@
 #include <fstream>
 #include <set>
 #include <math.h>
-#include "visitors/visitor.h"
 
 // type for npcs
 struct NPC;
@@ -29,6 +28,26 @@ struct IFightObserver{
     virtual void on_fight(const std::shared_ptr<NPC> attacker,const std::shared_ptr<NPC> defender,bool win) = 0;
 };
 
+class Visitor{
+    public:
+        virtual int visit(const Squirrel &elem) const = 0;
+        virtual int visit(const Druid &elem) const = 0;
+        virtual int visit(const Orc &elem) const = 0;
+};
+
+class SuperVisitor : public Visitor{
+    public:
+        int visit(const Squirrel &elem) const override{
+            return 0;
+        }
+        int visit(const Druid &elem) const override{
+            return 1;
+        }
+        int visit(const Orc &elem) const override{
+            return 2;
+        }
+};
+
 struct NPC : public std::enable_shared_from_this<NPC>
 {
     NpcType type;
@@ -43,7 +62,7 @@ struct NPC : public std::enable_shared_from_this<NPC>
     void fight_notify(const std::shared_ptr<NPC> defender,bool win);
     virtual bool is_close(const std::shared_ptr<NPC> &other, size_t distance) const;
 
-    virtual void Accept(Visitor *visitor) const = 0;
+    virtual int Accept(Visitor& visitor) const = 0;
 
     virtual bool is_squirrel() const;
     virtual bool is_druid() const;
