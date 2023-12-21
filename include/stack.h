@@ -1,123 +1,121 @@
-#ifndef STACK_H_
-#define STACK_H_
+#pragma once
 
 #include <stdexcept>
 #include <vector>
 #include <type_traits>
 
-namespace labWork {
 
-	template <typename T, class Allocator = std::allocator<T>, int BLOCK_COUNT = 100>
-	class stack {
-	private:
-		Allocator allocator;
-		T * data[BLOCK_COUNT];
-		int size = 0;
+template <typename T, class Allocator = std::allocator<T>, int BLOCK_COUNT = 100>
+class stack {
+private:
+	Allocator allocator;
+	T * data[BLOCK_COUNT];
+	int size = 0;
+public:
+	using value_type = T;
+	using reference = T &;
+	using pointer = T *;
+
+	stack() = default;
+	~stack();
+
+	template <typename... Args>
+	reference push(Args && ...args);
+	reference front();
+	void pop();
+
+	bool empty();
+
+	template <typename U>
+	class StackIterator;
+
+	using iterator = StackIterator<T>;
+	using const_iterator = StackIterator<const T>;
+
+	template <typename U>
+	class StackIterator {
 	public:
-		using value_type = T;
-		using reference = T &;
-		using pointer = T *;
+		using difference_type = std::ptrdiff_t;
+		using value_type = U;
+		using pointer = U *;
+		using reference = U &;
+		using iterator_categoty = std::forward_iterator_tag;
+	protected:
+		pointer ptr;
+	public:
+		StackIterator() = default;
+		StackIterator(pointer _ptr) : ptr(_ptr) {}
+		StackIterator(StackIterator & other) : ptr(other.ptr) {}
+		StackIterator(StackIterator && other) noexcept : ptr(other.ptr) {
+			other.ptr = nullptr;
+		}
 
-		stack() = default;
-		~stack();
+		StackIterator & operator=(StackIterator & other) {
+			ptr = other.ptr;
 
-		template <typename... Args>
-		reference push(Args && ...args);
-		reference front();
-		void pop();
+			return *this;
+		}
 
-		bool empty();
+		StackIterator & operator=(StackIterator && other) noexcept {
+			ptr = other.ptr;
+			other.ptr = nullptr;
 
-		template <typename U>
-		class StackIterator;
+			return *this;
+		}
 
-		using iterator = StackIterator<T>;
-		using const_iterator = StackIterator<const T>;
+		reference operator*() {
+			return *ptr;
+		}
 
-		template <typename U>
-		class StackIterator {
-		public:
-			using difference_type = std::ptrdiff_t;
-			using value_type = U;
-			using pointer = U *;
-			using reference = U &;
-			using iterator_categoty = std::forward_iterator_tag;
-		protected:
-			pointer ptr;
-		public:
-			StackIterator() = default;
-			StackIterator(pointer _ptr) : ptr(_ptr) {}
-			StackIterator(StackIterator & other) : ptr(other.ptr) {}
-			StackIterator(StackIterator && other) noexcept : ptr(other.ptr) {
-				other.ptr = nullptr;
-			}
+		pointer operator->() {
+			return ptr;
+		}
 
-			StackIterator & operator=(StackIterator & other) {
-				ptr = other.ptr;
+		StackIterator & operator++() {
+			++ptr;
+			return *this;
+		}
 
-				return *this;
-			}
+		StackIterator operator++(int) {
+			StackIterator temp(*this);
+			++ptr;
 
-			StackIterator & operator=(StackIterator && other) noexcept {
-				ptr = other.ptr;
-				other.ptr = nullptr;
+			return temp;
+		}
 
-				return *this;
-			}
+		StackIterator & operator+=(const difference_type offset) {
+			ptr += offset;
+			return *this;
+		}
 
-			reference operator*() {
-				return *ptr;
-			}
+		StackIterator operator+(const difference_type offset) {
+			StackIterator tmp(*this);
+			return tmp += offset;
+		}
 
-			pointer operator->() {
-				return ptr;
-			}
+		friend bool operator>(StackIterator<U> & lhs, StackIterator<U> & rhs) {
+			return lhs.ptr > rhs.ptr;
+		}
 
-			StackIterator & operator++() {
-				++ptr;
-				return *this;
-			}
+		friend bool operator>=(StackIterator<U> & lhs, StackIterator<U> & rhs) {
+			return lhs.ptr >= rhs.ptr;
+		}
 
-			StackIterator operator++(int) {
-				StackIterator temp(*this);
-				++ptr;
+		friend bool operator<(StackIterator<U> & lhs, StackIterator<U> & rhs) {
+			return lhs.ptr < rhs.ptr;
+		}
 
-				return temp;
-			}
+		friend bool operator<=(StackIterator<U> & lhs, StackIterator<U> & rhs) {
+			return lhs.ptr <= rhs.ptr;
+		}
 
-			StackIterator & operator+=(const difference_type offset) {
-				ptr += offset;
-				return *this;
-			}
+		friend bool operator==(StackIterator<U> & lhs, StackIterator<U> & rhs) {
+			return lhs.ptr == rhs.ptr;
+		}
 
-			StackIterator operator+(const difference_type offset) {
-				StackIterator tmp(*this);
-				return tmp += offset;
-			}
-
-			friend bool operator>(StackIterator<U> & lhs, StackIterator<U> & rhs) {
-				return lhs.ptr > rhs.ptr;
-			}
-
-			friend bool operator>=(StackIterator<U> & lhs, StackIterator<U> & rhs) {
-				return lhs.ptr >= rhs.ptr;
-			}
-
-			friend bool operator<(StackIterator<U> & lhs, StackIterator<U> & rhs) {
-				return lhs.ptr < rhs.ptr;
-			}
-
-			friend bool operator<=(StackIterator<U> & lhs, StackIterator<U> & rhs) {
-				return lhs.ptr <= rhs.ptr;
-			}
-
-			friend bool operator==(StackIterator<U> & lhs, StackIterator<U> & rhs) {
-				return lhs.ptr == rhs.ptr;
-			}
-
-			friend bool operator!=(StackIterator<U> & lhs, StackIterator<U> & rhs) {
-				return not(lhs == rhs);
-			}
+		friend bool operator!=(StackIterator<U> & lhs, StackIterator<U> & rhs) {
+			return not(lhs == rhs);
+		}
 
 		}; // class StackIterator
 
@@ -191,7 +189,3 @@ namespace labWork {
 	inline bool stack<T, Allocator, BLOCK_COUNT>::empty() {
 		return size == 0;
 	}
-
-} // namespace labWork
-
-#endif

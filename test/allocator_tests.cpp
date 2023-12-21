@@ -4,11 +4,11 @@
 #include "allocator.h"
 
 TEST(AllocatorTestSet, InnerTypesIsConvertible) {
-	bool p2constP = std::is_convertible_v<labWork::Allocator<int>::pointer, labWork::Allocator<int>::const_pointer>;
-	bool p2voidP = std::is_convertible_v<labWork::Allocator<int>::pointer, labWork::Allocator<int>::void_pointer>;
-	bool p2constVoidP = std::is_convertible_v<labWork::Allocator<int>::pointer, labWork::Allocator<int>::const_void_pointer>;
-	bool constP2constVoidP = std::is_convertible_v<labWork::Allocator<int>::const_pointer, labWork::Allocator<int>::const_void_pointer>;
-	bool voidP2constVoidP = std::is_convertible_v<labWork::Allocator<int>::void_pointer, labWork::Allocator<int>::const_void_pointer>;
+	bool p2constP = std::is_convertible_v<Allocator<int>::pointer, Allocator<int>::const_pointer>;
+	bool p2voidP = std::is_convertible_v<Allocator<int>::pointer, Allocator<int>::void_pointer>;
+	bool p2constVoidP = std::is_convertible_v<Allocator<int>::pointer, Allocator<int>::const_void_pointer>;
+	bool constP2constVoidP = std::is_convertible_v<Allocator<int>::const_pointer, Allocator<int>::const_void_pointer>;
+	bool voidP2constVoidP = std::is_convertible_v<Allocator<int>::void_pointer, Allocator<int>::const_void_pointer>;
 
 	ASSERT_TRUE(
 		   p2constP
@@ -20,7 +20,7 @@ TEST(AllocatorTestSet, InnerTypesIsConvertible) {
 }
 
 TEST(AllocatorTestSet, allocateTest) {
-	labWork::Allocator<int, 2> allocator;
+	Allocator<int, 2> allocator;
 
 	int * pint = allocator.allocate(1);
 

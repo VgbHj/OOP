@@ -4,8 +4,7 @@
 
 class StackIteratorsTests : public ::testing::Test {
 public:
-	labWork::stack<std::string, labWork::Allocator<std::string>> stack;
-	// labWork::stack<const std::string, labWork::Allocator<const std::string>> constStack;
+	stack<std::string, Allocator<std::string>> stack;
 	std::vector<std::string> data = {
 		"abcde",
 		"",
@@ -29,7 +28,7 @@ public:
 };
 
 TEST(StackTestsSet, pushTest) {
-	labWork::stack<std::string, labWork::Allocator<std::string>> stack;
+	stack<std::string, Allocator<std::string>> stack;
 	const char * rawString = "abcde";
 	std::string expectedString(rawString);
 
@@ -39,7 +38,7 @@ TEST(StackTestsSet, pushTest) {
 }
 
 TEST(StackTestsSet, frontTest) {
-	labWork::stack<std::string, labWork::Allocator<std::string>> stack;
+	stack<std::string, Allocator<std::string>> stack;
 	const char * rawString = "abcde";
 	std::string expectedString(rawString);
 
@@ -51,7 +50,7 @@ TEST(StackTestsSet, frontTest) {
 }
 
 TEST(StackTestsSet, popTest) {
-	labWork::stack<std::string, labWork::Allocator<std::string>> stack;
+	stack<std::string, Allocator<std::string>> stack;
 	const char * rawString1 = "abcde";
 	const char * rawString2 = "abc123";
 	std::string expectedString(rawString1);

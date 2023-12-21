@@ -4,8 +4,8 @@
 #include "stack.h"
 #include "allocator.h"
 
-using myMap = std::map<int, int, std::less<int>, labWork::Allocator<std::pair<const int, int>>>;
-using myStack = labWork::stack<std::pair<int, int>, labWork::Allocator<std::pair<int, int>>>;
+using myMap = std::map<int, int, std::less<int>, Allocator<std::pair<const int, int>>>;
+using myStack = labWork::stack<std::pair<int, int>, Allocator<std::pair<int, int>>>;
 
 
 unsigned long long int factorial(int n) {
